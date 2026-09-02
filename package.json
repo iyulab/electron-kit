@@ -16,6 +16,10 @@
     "./dialogs": {
       "types": "./dist/dialogs.d.ts",
       "import": "./dist/dialogs.js"
+    },
+    "./app-menu": {
+      "types": "./dist/app-menu.d.ts",
+      "import": "./dist/app-menu.js"
     }
   },
   "scripts": {
