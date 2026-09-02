@@ -20,6 +20,10 @@
     "./app-menu": {
       "types": "./dist/app-menu.d.ts",
       "import": "./dist/app-menu.js"
+    },
+    "./updater": {
+      "types": "./dist/updater.d.ts",
+      "import": "./dist/updater.js"
     }
   },
   "scripts": {
@@ -30,11 +34,13 @@
     "guard:test": "node --test scripts/*.test.mjs"
   },
   "peerDependencies": {
-    "electron": ">=28.0.0"
+    "electron": ">=28.0.0",
+    "electron-updater": ">=6.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
     "electron": "^42.5.2",
+    "electron-updater": "^6.8.9",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
