@@ -11,6 +11,8 @@ exposes callbacks, never invents an IPC channel name or calls into a consumer's 
 
 ## Install
 
+Requires Node ≥22.
+
 ```bash
 npm install @iyulab/electron-kit electron electron-updater
 ```
