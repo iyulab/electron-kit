@@ -1,6 +1,6 @@
 {
   "name": "@iyulab/electron-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "license": "MIT",
   "engines": {
@@ -14,19 +14,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./dialogs": {
       "types": "./dist/dialogs.d.ts",
-      "import": "./dist/dialogs.js"
+      "import": "./dist/dialogs.js",
+      "default": "./dist/dialogs.js"
     },
     "./app-menu": {
       "types": "./dist/app-menu.d.ts",
-      "import": "./dist/app-menu.js"
+      "import": "./dist/app-menu.js",
+      "default": "./dist/app-menu.js"
     },
     "./updater": {
       "types": "./dist/updater.d.ts",
-      "import": "./dist/updater.js"
+      "import": "./dist/updater.js",
+      "default": "./dist/updater.js"
     }
   },
   "scripts": {
