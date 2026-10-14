@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { UpdaterReadyState } from './updater-logic.js'
+import { UpdaterReadyState, isUnreachableUpdateError } from './updater-logic.js'
 
 test('starts not ready', () => {
   const state = new UpdaterReadyState()
@@ -32,4 +32,18 @@ test('each instance tracks its own state independently', () => {
   a.markReady()
   assert.equal(a.isReady, true)
   assert.equal(b.isReady, false)
+})
+
+test('network and server failures are unreachable, not defects', () => {
+  assert.equal(isUnreachableUpdateError({ message: 'net::ERR_CONNECTION_RESET' }), true)
+  assert.equal(isUnreachableUpdateError({ message: 'getaddrinfo ENOTFOUND github.com' }), true)
+  assert.equal(isUnreachableUpdateError({ message: 'request failed', code: 'ETIMEDOUT' }), true)
+  assert.equal(isUnreachableUpdateError({ message: 'HttpError: 404 "method: GET url: https://example.com/latest.yml"' }), true)
+  assert.equal(isUnreachableUpdateError({ message: 'HttpError: 503 Service Unavailable' }), true)
+})
+
+test('anything else stays an error', () => {
+  assert.equal(isUnreachableUpdateError({ message: 'sha512 checksum mismatch' }), false)
+  assert.equal(isUnreachableUpdateError({ message: 'HttpError: 401 Unauthorized' }), false)
+  assert.equal(isUnreachableUpdateError({ message: 'Cannot find latest.yml in the latest release artifacts' }), false)
 })

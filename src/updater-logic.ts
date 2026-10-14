@@ -41,3 +41,18 @@ export class UpdaterReadyState {
     return this.#ready
   }
 }
+
+// Failures that mean the update server could not be reached or had no feed to give: the user's
+// network, a proxy, a server-side outage. Logged as warnings — an app that logs errors as defects
+// would otherwise count every offline launch as one.
+const NETWORK_CODES = new Set(['ENOTFOUND', 'ECONNRESET', 'ECONNREFUSED', 'ECONNABORTED', 'ETIMEDOUT', 'EAI_AGAIN', 'ENETUNREACH', 'EHOSTUNREACH'])
+
+/** Whether an updater error is the network or the server rather than the app. */
+export function isUnreachableUpdateError(error: { message?: string; code?: unknown }): boolean {
+  if (typeof error.code === 'string' && NETWORK_CODES.has(error.code)) return true
+  const message = error.message ?? ''
+  if (/net::ERR_[A-Z_]+/.test(message)) return true
+  if ([...NETWORK_CODES].some((code) => message.includes(code))) return true
+  // electron-updater's HttpError: a missing feed (404) or a failing server (5xx).
+  return /HttpError: (404|5\d\d)\b/.test(message)
+}

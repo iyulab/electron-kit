@@ -1,7 +1,7 @@
 import { autoUpdater } from 'electron-updater'
-import { UpdaterReadyState, type UpdateAvailableInfo, type UpdateProgressInfo } from './updater-logic.js'
+import { UpdaterReadyState, isUnreachableUpdateError, type UpdateAvailableInfo, type UpdateProgressInfo } from './updater-logic.js'
 
-export { UpdaterReadyState } from './updater-logic.js'
+export { UpdaterReadyState, isUnreachableUpdateError } from './updater-logic.js'
 export type { UpdateAvailableInfo, UpdateProgressInfo } from './updater-logic.js'
 
 export interface UpdaterConfig {
@@ -35,7 +35,9 @@ export function initAutoUpdater(config: UpdaterConfig): void {
   autoUpdater.logger = {
     info: (msg) => config.log.info(`[Updater] ${msg}`),
     warn: (msg) => config.log.warn(`[Updater] ${msg}`),
-    error: (msg) => config.log.error(`[Updater] ${msg}`),
+    // The `error` event below reports the same failure; logging it here at error level as well
+    // recorded every updater failure twice.
+    error: (msg) => config.log.warn(`[Updater] ${msg}`),
     debug: (msg) => config.log.info(`[Updater:debug] ${msg}`),
   }
   autoUpdater.autoDownload = false
@@ -65,7 +67,8 @@ export function initAutoUpdater(config: UpdaterConfig): void {
     config.onDownloaded?.({ version: info.version, releaseNotes: normalizeReleaseNotes(info.releaseNotes) })
   })
   autoUpdater.on('error', (err) => {
-    config.log.error(`Update error: ${err.message}`)
+    if (isUnreachableUpdateError(err)) config.log.warn(`Update server unreachable: ${err.message}`)
+    else config.log.error(`Update error: ${err.message}`)
     config.onError?.(err)
   })
 
