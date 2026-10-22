@@ -104,7 +104,7 @@ Node.
 npm install
 npm test               # node:test via tsx, real Chromium not required (no UI here)
 npm run typecheck
-npm run guard           # forge-ignorance + application-protocol scan (this package must stay domain-neutral and never invent IPC channel names)
+npm run guard           # application-protocol scan (this package must never invent IPC channel names)
 npm run build            # per-module ESM output, type declarations
 ```
 

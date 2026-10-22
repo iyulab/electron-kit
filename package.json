@@ -37,7 +37,7 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test src/**/*.test.ts",
-    "guard": "node scripts/check-forge-tokens.mjs",
+    "guard": "node scripts/check-protocol-neutral.mjs",
     "guard:test": "node --test scripts/*.test.mjs"
   },
   "peerDependencies": {

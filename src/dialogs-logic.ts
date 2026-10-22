@@ -7,8 +7,7 @@
  * named-import bindings are validated at module-instantiation time
  * regardless of whether the binding is ever used. Splitting this out is
  * what makes it possible to unit-test under plain `node --test`/`tsx` at
- * all — see docs/superpowers/specs/2026-09-02-electron-kit-design.md,
- * "테스트 전략".
+ * all.
  */
 
 export interface OpenDialogLikeResult {

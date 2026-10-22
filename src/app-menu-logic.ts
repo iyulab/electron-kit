@@ -34,8 +34,7 @@ export interface AppMenuLabels {
 export interface BuildAppMenuConfig {
   /**
    * Every menu-item label, supplied by the consumer — this package has no
-   * built-in strings and no notion of which locales exist (see
-   * docs/superpowers/specs/2026-09-02-electron-kit-design.md, "i18n — 없음").
+   * built-in strings and no notion of which locales exist.
    */
   labels: AppMenuLabels
   /** Show the DevTools entry under View. */
